@@ -1,6 +1,7 @@
 import React from "react";
-import { Alert, Button, StyleSheet, Text } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import ProductList from "./components/ProductList";
 
 const App = () => {
   const [count, setCount] = React.useState(0);
@@ -43,13 +44,14 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Counter: {count}</Text>
+        {/* <Text style={styles.text}>Counter: {count}</Text>
         <Button title={"2-Button Alert"} onPress={createTwoButtonAlert} />
         <Button title={"3-Button Alert"} onPress={createThreeButtonAlert} />
         <Button
           title={"Web-Button Alert"}
           onPress={() => setCount(count + 1)}
-        />
+        /> */}
+        <ProductList />
       </SafeAreaView>
     </SafeAreaProvider>
   );
