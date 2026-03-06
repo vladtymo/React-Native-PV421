@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import { Product } from "../models/Product";
+import ProductForm from "./ProductForm";
 import ProductItem from "./ProductItem";
 
 const api = "https://fakestoreapi.com/products";
@@ -19,14 +20,37 @@ export default function ProductList() {
       .catch((err) => Alert.alert("Error", err.message));
   };
 
+  const handleCreateProduct = (product: Product) => {
+    let newId = products.length + 1;
+    let newItem = {
+      ...product,
+      price: Number(product.price),
+      rating: {
+        rate: 0,
+        count: 0,
+      },
+      id: newId,
+    };
+    setProducts((prevProducts) => [...prevProducts, newItem]);
+  };
+
+  const handleDeleteProduct = (id: number) => {
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== id),
+    );
+  };
+
   return (
     <View style={styles.container}>
+      <ProductForm onCreate={handleCreateProduct} />
       <Text style={styles.title}>Product List</Text>
       <FlatList
         data={products}
-        renderItem={({ item }) => <ProductItem product={item} />}
+        renderItem={({ item }) => (
+          <ProductItem product={item} onDelete={handleDeleteProduct} />
+        )}
         initialNumToRender={6}
-        keyExtractor={(i, ind) => i.id?.toString() ?? ind}
+        keyExtractor={(i, ind) => i.id?.toString() ?? ind.toString()}
         contentContainerStyle={styles.listContent}
       />
     </View>

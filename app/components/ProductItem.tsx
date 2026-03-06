@@ -1,12 +1,13 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Product } from "../models/Product";
 
 type ProductItemProps = {
   product: Product;
+  onDelete: (id: number) => void;
 };
 
-export default function ProductItem({ product }: ProductItemProps) {
+export default function ProductItem({ product, onDelete }: ProductItemProps) {
   return (
     <View style={styles.card}>
       <Image
@@ -23,6 +24,12 @@ export default function ProductItem({ product }: ProductItemProps) {
         <Text style={styles.meta}>
           ⭐ {product.rating.rate} ({product.rating.count})
         </Text>
+        <Pressable
+          style={styles.deleteButton}
+          onPress={() => onDelete(product.id)}
+        >
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -60,5 +67,18 @@ const styles = StyleSheet.create({
   meta: {
     fontSize: 12,
     color: "#666",
+  },
+  deleteButton: {
+    alignSelf: "flex-start",
+    marginTop: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    backgroundColor: "#dc2626",
+  },
+  deleteButtonText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
   },
 });
