@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -52,6 +53,9 @@ const App = () => {
           onPress={() => setCount(count + 1)}
         /> */}
         <ProductList />
+        <Link href="/details" style={{ marginTop: 20 }}>
+          Go to Details
+        </Link>
       </SafeAreaView>
     </SafeAreaProvider>
   );
