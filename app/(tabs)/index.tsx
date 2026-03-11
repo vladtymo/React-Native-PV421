@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import React from "react";
 import { Alert, StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import ProductList from "./components/ProductList";
+import ProductList from "../components/ProductList";
 
 const App = () => {
   const [count, setCount] = React.useState(0);
