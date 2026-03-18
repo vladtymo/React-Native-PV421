@@ -1,13 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../hooks";
+import { plus, reset, selectCount } from "../slices/menuSlice";
 
 export default function About() {
+  const dispatch = useDispatch();
+  const count = useAppSelector(selectCount);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>About This App</Text>
       <Text style={styles.description}>
         This React Native app is built with Expo Router and TypeScript.
       </Text>
+
+      <Button title="Plus" onPress={() => dispatch(plus())} />
+      <Button title="Reset" onPress={() => dispatch(reset())} />
+      <Text style={styles.count}>Count: {count}</Text>
 
       <View style={styles.card}>
         <Text style={styles.label}>Project</Text>
@@ -59,5 +69,10 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 16,
     color: "#111",
+  },
+  count: {
+    fontSize: 16,
+    color: "#111",
+    marginTop: 10,
   },
 });
