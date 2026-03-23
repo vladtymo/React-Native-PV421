@@ -1,5 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs } from "expo-router";
 import React from "react";
 import { useAppSelector } from "../hooks";
@@ -74,6 +75,15 @@ export default function TabLayout() {
         options={{
           title: "Animations",
           tabBarIcon: ({ color }) => <TabBarIcon name="film" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="db"
+        options={{
+          title: "DB",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name="storage" size={24} color="black" />
+          ),
         }}
       />
     </Tabs>
