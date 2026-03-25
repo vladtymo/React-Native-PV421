@@ -86,6 +86,15 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="gestures"
+        options={{
+          title: "Gestures",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name="gesture" size={24} color="black" />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
