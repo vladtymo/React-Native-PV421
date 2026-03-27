@@ -1,32 +1,39 @@
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { Stack } from "expo-router";
+import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
+import { Suspense } from "react";
+import { ActivityIndicator } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
+import migrations from "../drizzle/migrations";
 import { store } from "./store";
 
-const DATABASE_NAME = "colors.db";
-
-// const expoDb = openDatabaseSync(DATABASE_NAME);
-// const db = drizzle(expoDb);
-// const { success, error } = useMigrations(db, migrations);
+const DATABASE_NAME = "products_plus.db";
 
 export default function RootLayout() {
+  const expoDb = openDatabaseSync(DATABASE_NAME);
+  const db = drizzle(expoDb);
+  const { success, error } = useMigrations(db, migrations);
+
   return (
-    // <Suspense fallback={<ActivityIndicator size="large" />}>
-    // <SQLiteProvider databaseName={DATABASE_NAME} onInit={migrateDbIfNeeded}>
-    <Provider store={store}>
-      <GestureHandlerRootView>
-        <Stack>
-          {/* <Stack.Screen name="index" options={{ title: "Home" }} />
-            <Stack.Screen name="details" options={{ title: "Details" }} />
-            <Stack.Screen name="about" options={{ title: "About" }} /> */}
-          <Stack.Screen
-            name="(tabs)"
-            options={{ title: "Home", headerShown: false }}
-          ></Stack.Screen>
-        </Stack>
-      </GestureHandlerRootView>
-    </Provider>
-    // {/* </SQLiteProvider> */}
-    // </Suspense>
+    <Suspense fallback={<ActivityIndicator size="large" />}>
+      <SQLiteProvider
+        databaseName={DATABASE_NAME}
+        options={{ enableChangeListener: true }}
+        useSuspense
+      >
+        <Provider store={store}>
+          <GestureHandlerRootView>
+            <Stack>
+              <Stack.Screen
+                name="(tabs)"
+                options={{ title: "Home", headerShown: false }}
+              ></Stack.Screen>
+            </Stack>
+          </GestureHandlerRootView>
+        </Provider>
+      </SQLiteProvider>
+    </Suspense>
   );
 }

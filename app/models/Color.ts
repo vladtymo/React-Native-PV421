@@ -1,4 +1,4 @@
-export interface Color {
+export interface ColorDbModel {
   id: number;
   value: string;
 }

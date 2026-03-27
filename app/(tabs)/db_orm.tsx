@@ -1,4 +1,9 @@
-import { addItem, deleteItem, getItems } from "@/services/db";
+import { addItem } from "@/services/db_orm";
+import * as schema from "@/services/db_schema";
+import { productsTable, ProductTable } from "@/services/db_schema";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
 import {
     Button,
@@ -8,31 +13,59 @@ import {
     TextInput,
     View,
 } from "react-native";
-import { ColorDbModel } from "../models/Color";
 
-const Database = () => {
-  const [items, setItems] = useState<ColorDbModel[]>([]);
+const DatabaseORM = () => {
+  const db = drizzle(useSQLiteContext(), { schema });
+  const [products, setProducts] = useState<ProductTable[]>([]);
+
+  //const [items, setItems] = useState<Product[]>([]);
   const [text, setText] = useState<string>("");
 
   useEffect(() => {
     loadItems();
+    console.log("loading...");
   }, []);
 
   const loadItems = async () => {
-    setItems((await getItems()) ?? []);
+    //init();
+
+    //setItems((await getItems()) ?? []);
+    db.select().from(productsTable).then(setProducts);
+    console.log("loading...");
   };
 
   const addItemHandle = async () => {
     if (!text.trim()) return;
 
-    const createdItem = await addItem(text);
-    setItems([...items, createdItem]);
-    setText("");
+    //const createdItem = await addItem(text);
+
+    // db.insert(productsTable)
+    //   .values({ title: text })
+    //   .then((result) => {
+    //     const createdItem = { id: Number(result.lastInsertRowId), title: text };
+
+    //     setProducts([...products, createdItem]);
+
+    //     setText("");
+    //     console.log("added...");
+    //   });
+
+    addItem(db, text).then((createdItem) => {
+      setProducts([...products, createdItem]);
+      setText("");
+      console.log("added...");
+    });
   };
 
   const removeItemHandle = async (id: number) => {
-    await deleteItem(id);
-    setItems(items.filter((item) => item.id !== id));
+    //await deleteItem(id);
+
+    db.delete(productsTable)
+      .where(eq(productsTable.id, id))
+      .then(() => {
+        setProducts(products.filter((item) => item.id !== id));
+        console.log("removed...");
+      });
   };
 
   return (
@@ -41,13 +74,13 @@ const Database = () => {
 
       <Text>Name: </Text>
       <TextInput style={styles.input} value={text} onChangeText={setText} />
-      <Button title="Add New Color" onPress={addItemHandle} />
+      <Button title="Add New Item" onPress={addItemHandle} />
       <FlatList
-        data={items}
+        data={products}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>
-              {item.id} - {item.value}
+              {item.id} - {item.title}
             </Text>
             <Button
               title="Remove"
@@ -61,7 +94,7 @@ const Database = () => {
   );
 };
 
-export default Database;
+export default DatabaseORM;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,4 @@
-import { Color } from "@/app/models/Color";
+import { ColorDbModel } from "@/app/models/Color";
 import * as SQLite from "expo-sqlite";
 import { SQLiteDatabase } from "expo-sqlite";
 
@@ -27,18 +27,18 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
 }
 
-export async function addItem(value: string): Promise<Color> {
+export async function addItem(value: string): Promise<ColorDbModel> {
   const result = await db.runAsync(`INSERT INTO colors (value) VALUES (?);`, [
     value,
   ]);
-  return { id: result.lastInsertRowId, value } as Color;
+  return { id: result.lastInsertRowId, value } as ColorDbModel;
 }
 
 export async function deleteItem(id: number) {
   await db.runAsync(`DELETE FROM colors where id = ?;`, [id]);
 }
 
-export async function updateItem(item: Color) {
+export async function updateItem(item: ColorDbModel) {
   await db.runAsync(`UPDATE colors set value = ? where id = ?;`, [
     item.value,
     item.id,
@@ -46,5 +46,5 @@ export async function updateItem(item: Color) {
 }
 
 export async function getItems() {
-  return await db.getAllAsync<Color>("SELECT * FROM colors;");
+  return await db.getAllAsync<ColorDbModel>("SELECT * FROM colors;");
 }
