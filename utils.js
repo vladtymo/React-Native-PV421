@@ -7,6 +7,12 @@ export function getSumm(a, b) {
   return a + b;
 }
 
+// getSum(3, 6) => 9
+// getSum(-1, -4) => -5
+// getSum(3.5, 6.1) => 9.6
+// getSum(3) => Error
+// getSum(3, "hello") => TypeError
+
 export function getUser(id) {
   return { id: `#${id}`, name: "John Doe", phone: undefined };
 }
