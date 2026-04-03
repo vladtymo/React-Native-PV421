@@ -95,6 +95,15 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="media"
+        options={{
+          title: "Media",
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name="photo-library" size={24} color="black" />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
