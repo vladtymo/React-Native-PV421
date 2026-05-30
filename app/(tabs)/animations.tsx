@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
-    interpolateColor,
-    useAnimatedStyle,
-    useSharedValue,
-    withDelay,
-    withRepeat,
-    withSpring,
-    withTiming,
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withRepeat,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 const Animation = () => {

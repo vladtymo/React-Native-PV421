@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 
 const Gestures = () => {
@@ -32,6 +32,7 @@ const Gestures = () => {
   });
 
   const start = useSharedValue({ x: 0, y: 0 });
+
   const gesture = Gesture.Pan()
     .onBegin(() => {
       isPressed.value = true;
